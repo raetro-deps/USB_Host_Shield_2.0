@@ -23,7 +23,7 @@
 #include "PS3Enums.h"
 
 /* PS3 data taken from descriptors */
-#define EP_MAXPKTSIZE           64 // max size for data via USB
+#define PS3_EP_MAXPKTSIZE           64 // max size for data via USB
 
 /* Names we give to the 3 ps3 pipes - this is only used for setting the bluetooth address into the ps3 controllers */
 #define PS3_CONTROL_PIPE        0
@@ -303,8 +303,8 @@ private:
         uint32_t ButtonClickState;
 
         uint8_t my_bdaddr[6]; // Change to your dongles Bluetooth address in the constructor
-        uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
-        uint8_t writeBuf[EP_MAXPKTSIZE]; // General purpose buffer for output data
+        uint8_t readBuf[PS3_EP_MAXPKTSIZE]; // General purpose buffer for input data
+        uint8_t writeBuf[PS3_EP_MAXPKTSIZE]; // General purpose buffer for output data
 
         void readReport(); // read incoming data
         void printReport(); // print incoming date - Uncomment for debugging

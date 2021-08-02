@@ -23,7 +23,7 @@
 #include "xboxEnums.h"
 
 /* Data Xbox 360 taken from descriptors */
-#define EP_MAXPKTSIZE       32 // max size for data via USB
+#define XBOX_EP_MAXPKTSIZE       32 // max size for data via USB
 
 /* Names we give to the 3 Xbox360 pipes */
 #define XBOX_CONTROL_PIPE    0
@@ -35,9 +35,10 @@
 #define MADCATZ_VID                             0x1BAD // For unofficial Mad Catz controllers
 #define JOYTECH_VID                             0x162E // For unofficial Joytech controllers
 #define GAMESTOP_VID                            0x0E6F // Gamestop controller
-#define HORI_VID                            	0x24C6 // Hori
 #define HORI_FIGHTING_EDGE_VID                  0x0F0D // Hori Fighting Edge
-
+#ifndef HORI_VID
+#define HORI_VID                            	0x24C6 // Hori
+#endif
 
 #define XBOX_WIRED_PID                          0x028E // Microsoft 360 Wired controller
 #define XBOX_WIRELESS_PID                       0x028F // Wireless controller only support charging
@@ -218,7 +219,7 @@ private:
         bool L2Clicked; // These buttons are analog, so we use we use these bools to check if they where clicked or not
         bool R2Clicked;
 
-        uint8_t readBuf[EP_MAXPKTSIZE]; // General purpose buffer for input data
+        uint8_t readBuf[XBOX_EP_MAXPKTSIZE]; // General purpose buffer for input data
         uint8_t writeBuf[8]; // General purpose buffer for output data
 
         void readReport(); // read incoming data

@@ -158,13 +158,13 @@ uint8_t XBOXUSB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[ XBOX_INPUT_PIPE ].epAddr = 0x01; // XBOX 360 report endpoint
         epInfo[ XBOX_INPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+        epInfo[ XBOX_INPUT_PIPE ].maxPktSize = XBOX_EP_MAXPKTSIZE;
         epInfo[ XBOX_INPUT_PIPE ].bmSndToggle = 0;
         epInfo[ XBOX_INPUT_PIPE ].bmRcvToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE ].epAddr = 0x02; // XBOX 360 output endpoint
         epInfo[ XBOX_OUTPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ XBOX_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+        epInfo[ XBOX_OUTPUT_PIPE ].maxPktSize = XBOX_EP_MAXPKTSIZE;
         epInfo[ XBOX_OUTPUT_PIPE ].bmSndToggle = 0;
         epInfo[ XBOX_OUTPUT_PIPE ].bmRcvToggle = 0;
 
@@ -232,7 +232,7 @@ uint8_t XBOXUSB::Release() {
 uint8_t XBOXUSB::Poll() {
         if(!bPollEnable)
                 return 0;
-        uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
+        uint16_t BUFFER_SIZE = XBOX_EP_MAXPKTSIZE;
         pUsb->inTransfer(bAddress, epInfo[ XBOX_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
         readReport();
 #ifdef PRINTREPORT

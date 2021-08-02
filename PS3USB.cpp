@@ -156,13 +156,13 @@ uint8_t PS3USB::Init(uint8_t parent, uint8_t port, bool lowspeed) {
         epInfo[ PS3_OUTPUT_PIPE ].epAddr = 0x02; // PS3 output endpoint
         epInfo[ PS3_OUTPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ PS3_OUTPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+        epInfo[ PS3_OUTPUT_PIPE ].maxPktSize = PS3_EP_MAXPKTSIZE;
         epInfo[ PS3_OUTPUT_PIPE ].bmSndToggle = 0;
         epInfo[ PS3_OUTPUT_PIPE ].bmRcvToggle = 0;
         epInfo[ PS3_INPUT_PIPE ].epAddr = 0x01; // PS3 report endpoint
         epInfo[ PS3_INPUT_PIPE ].epAttribs = USB_TRANSFER_TYPE_INTERRUPT;
         epInfo[ PS3_INPUT_PIPE ].bmNakPower = USB_NAK_NOWAIT; // Only poll once for interrupt endpoints
-        epInfo[ PS3_INPUT_PIPE ].maxPktSize = EP_MAXPKTSIZE;
+        epInfo[ PS3_INPUT_PIPE ].maxPktSize = PS3_EP_MAXPKTSIZE;
         epInfo[ PS3_INPUT_PIPE ].bmSndToggle = 0;
         epInfo[ PS3_INPUT_PIPE ].bmRcvToggle = 0;
 
@@ -286,7 +286,7 @@ uint8_t PS3USB::Poll() {
                 return 0;
 
         if(PS3Connected || PS3NavigationConnected) {
-                uint16_t BUFFER_SIZE = EP_MAXPKTSIZE;
+                uint16_t BUFFER_SIZE = PS3_EP_MAXPKTSIZE;
                 pUsb->inTransfer(bAddress, epInfo[ PS3_INPUT_PIPE ].epAddr, &BUFFER_SIZE, readBuf); // input on endpoint 1
                 if((int32_t)((uint32_t)millis() - timer) > 100) { // Loop 100ms before processing data
                         readReport();
@@ -436,8 +436,8 @@ void PS3USB::setAllOff() {
 }
 
 void PS3USB::setRumbleOff() {
-        uint8_t rumbleBuf[EP_MAXPKTSIZE];
-        memcpy(rumbleBuf, writeBuf, EP_MAXPKTSIZE);
+        uint8_t rumbleBuf[PS3_EP_MAXPKTSIZE];
+        memcpy(rumbleBuf, writeBuf, PS3_EP_MAXPKTSIZE);
         rumbleBuf[1] = 0x00;
         rumbleBuf[2] = 0x00; // Low mode off
         rumbleBuf[3] = 0x00;
@@ -457,8 +457,8 @@ void PS3USB::setRumbleOn(RumbleEnum mode) {
 }
 
 void PS3USB::setRumbleOn(uint8_t rightDuration, uint8_t rightPower, uint8_t leftDuration, uint8_t leftPower) {
-        uint8_t rumbleBuf[EP_MAXPKTSIZE];
-        memcpy(rumbleBuf, writeBuf, EP_MAXPKTSIZE);
+        uint8_t rumbleBuf[PS3_EP_MAXPKTSIZE];
+        memcpy(rumbleBuf, writeBuf, PS3_EP_MAXPKTSIZE);
         rumbleBuf[1] = rightDuration;
         rumbleBuf[2] = rightPower;
         rumbleBuf[3] = leftDuration;
